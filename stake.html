@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>质押 - Nova NFT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                var(--bg-dark);
+            z-index: -1;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-link {
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .wallet-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 16px;
+        }
+        
+        /* 主内容 */
+        .main-content {
+            padding: 120px 48px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .page-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* 质押概览 */
+        .stake-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .overview-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+        }
+        
+        .overview-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 16px;
+        }
+        
+        .overview-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .overview-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* 质押池 */
+        .pools-section {
+            margin-bottom: 48px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .pool-tabs {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .pool-tab {
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .pool-tab:hover, .pool-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .pools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .pool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        
+        .pool-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .pool-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .pool-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .pool-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .pool-info span {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .pool-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .pool-stat {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+        
+        .pool-stat .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .pool-stat .value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .pool-stat .value.highlight {
+            color: var(--success);
+        }
+        
+        .pool-progress {
+            margin-bottom: 24px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        .pool-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .pool-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+        
+        /* 我的质押 */
+        .my-stakes {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+        }
+        
+        .stakes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .stakes-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .stakes-table {
+            width: 100%;
+        }
+        
+        .stakes-table th,
+        .stakes-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stakes-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        .stakes-table td {
+            font-size: 14px;
+        }
+        
+        .stakes-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .stake-asset {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stake-asset .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stake-asset .info h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .stake-asset .info span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .apr-value {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .stake-overview { grid-template-columns: repeat(2, 1fr); }
+            .pools-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .main-content { padding: 100px 20px 40px; }
+            .stake-overview { grid-template-columns: 1fr; }
+            .pools-grid { grid-template-columns: 1fr; }
+            .stakes-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">💎</div>
+            Nova NFT
+        </a>
+        
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="market.html" class="nav-link">市场</a>
+            <a href="#" class="nav-link">铸造</a>
+            <a href="stake.html" class="nav-link active">质押</a>
+            <a href="#" class="nav-link">资产</a>
+            <a href="#" class="nav-link">关于</a>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="btn wallet-btn">👛 连接钱包</button>
+            <button class="btn btn-primary">开始创作</button>
+        </div>
+    </nav>
+    
+    <!-- 主内容 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">💰 NFT 质押</h1>
+            <p class="page-subtitle">质押您的NFT获取被动收益，年化收益率高达 12%-45%</p>
+        </div>
+        
+        <!-- 概览 -->
+        <div class="stake-overview">
+            <div class="overview-card">
+                <div class="overview-icon">📊</div>
+                <div class="overview-value">$125,680</div>
+                <div class="overview-label">我的总质押价值</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">💎</div>
+                <div class="overview-value">$8,420</div>
+                <div class="overview-label">累计收益</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">📈</div>
+                <div class="overview-value">28.5%</div>
+                <div class="overview-label">平均年化收益率</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">🎁</div>
+                <div class="overview-value">15</div>
+                <div class="overview-label">质押中的NFT</div>
+            </div>
+        </div>
+        
+        <!-- 质押池 -->
+        <section class="pools-section">
+            <div class="section-header">
+                <h2 class="section-title">🔥 热门质押池</h2>
+                <div class="pool-tabs">
+                    <button class="pool-tab active">全部</button>
+                    <button class="pool-tab">🔥 热门</button>
+                    <button class="pool-tab">🆕 最新</button>
+                </div>
+            </div>
+            
+            <div class="pools-grid">
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-icon">🎨</div>
+                        <div class="pool-info">
+                            <h4>艺术大师系列</h4>
+                            <span>Art Master Collection</span>
+                        </div>
+                    </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="label">年化收益率</div>
+                            <div class="value highlight">45%</div>
+                        </div>
+                        <div class="pool-stat">
+                            <div class="label">质押总额</div>
+                            <div class="value">2,580</div>
+                        </div>
+                    </div>
+                    <div class="pool-progress">
+                        <div class="progress-header">
+                            <span>已质押</span>
+                            <span>78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="pool-actions">
+                        <button class="btn btn-outline">详情</button>
+                        <button class="btn btn-primary">质押</button>
+                    </div>
+                </div>
+                
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🖼️</div>
+                        <div class="pool-info">
+                            <h4>像素朋克系列</h4>
+                            <span>Pixel Punk Collection</span>
+                        </div>
+                    </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="label">年化收益率</div>
+                            <div class="value highlight">38%</div>
+                        </div>
+                        <div class="pool-stat">
+                            <div class="label">质押总额</div>
+                            <div class="value">1,920</div>
+                        </div>
+                    </div>
+                    <div class="pool-progress">
+                        <div class="progress-header">
+                            <span>已质押</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                    <div class="pool-actions">
+                        <button class="btn btn-outline">详情</button>
+                        <button class="btn btn-primary">质押</button>
+                    </div>
+                </div>
+                
+                <div class="pool-card">
+                    <div class="pool-header">
+                        <div class="pool-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🏙️</div>
+                        <div class="pool-info">
+                            <h4>数字城市系列</h4>
+                            <span>Digital City Collection</span>
+                        </div>
+                    </div>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <div class="label">年化收益率</div>
+                            <div class="value highlight">32%</div>
+                        </div>
+                        <div class="pool-stat">
+                            <div class="label">质押总额</div>
+                            <div class="value">3,450</div>
+                        </div>
+                    </div>
+                    <div class="pool-progress">
+                        <div class="progress-header">
+                            <span>已质押</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                    <div class="pool-actions">
+                        <button class="btn btn-outline">详情</button>
+                        <button class="btn btn-primary">质押</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 我的质押 -->
+        <section class="my-stakes">
+            <div class="stakes-header">
+                <h3>📋 我的质押</h3>
+                <button class="btn btn-outline">查看全部</button>
+            </div>
+            
+            <table class="stakes-table">
+                <thead>
+                    <tr>
+                        <th>NFT</th>
+                        <th>质押池</th>
+                        <th>质押数量</th>
+                        <th>年化收益率</th>
+                        <th>累计收益</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="stake-asset">
+                                <div class="icon">🎨</div>
+                                <div class="info">
+                                    <h4>抽象宇宙 #142</h4>
+                                    <span>2026-01-15</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>艺术大师系列</td>
+                        <td>1</td>
+                        <td class="apr-value">45%</td>
+                        <td>0.85 ETH</td>
+                        <td><span class="status-badge">● 进行中</span></td>
+                        <td><button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">领取</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="stake-asset">
+                                <div class="icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🖼️</div>
+                                <div class="info">
+                                    <h4>像素朋克 #888</h4>
+                                    <span>2026-02-20</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>像素朋克系列</td>
+                        <td>1</td>
+                        <td class="apr-value">38%</td>
+                        <td>0.52 ETH</td>
+                        <td><span class="status-badge">● 进行中</span></td>
+                        <td><button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">领取</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="stake-asset">
+                                <div class="icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🏙️</div>
+                                <div class="info">
+                                    <h4>数字城市 #056</h4>
+                                    <span>2026-03-01</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>数字城市系列</td>
+                        <td>1</td>
+                        <td class="apr-value">32%</td>
+                        <td>0.21 ETH</td>
+                        <td><span class="status-badge">● 进行中</span></td>
+                        <td><button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">领取</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    
+    <script>
+        // 质押池标签切换
+        document.querySelectorAll('.pool-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
