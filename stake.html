@@ -40,7 +40,6 @@
             z-index: -1;
         }
         
-        /* 导航栏 */
         .navbar {
             position: fixed;
             top: 0;
@@ -77,80 +76,22 @@
             justify-content: center;
         }
         
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-link { padding: 10px 20px; color: var(--text-secondary); text-decoration: none; font-weight: 500; border-radius: 8px; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
         
-        .nav-link {
-            padding: 10px 20px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
+        .btn { padding: 10px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .wallet-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 16px; }
         
-        .nav-link:hover, .nav-link.active {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
-        }
+        .main-content { padding: 120px 48px 60px; max-width: 1400px; margin: 0 auto; }
         
-        .btn {
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .page-header { margin-bottom: 40px; }
+        .page-title { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; }
         
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .wallet-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 10px 16px;
-        }
-        
-        /* 主内容 */
-        .main-content {
-            padding: 120px 48px 60px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        
-        .page-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .page-subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-        
-        /* 质押概览 */
-        .stake-overview {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-bottom: 48px;
-        }
+        /* 概览卡片 */
+        .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 48px; }
         
         .overview-card {
             background: var(--bg-card);
@@ -181,55 +122,17 @@
             -webkit-text-fill-color: transparent;
         }
         
-        .overview-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
+        .overview-label { font-size: 14px; color: var(--text-secondary); }
         
         /* 质押池 */
-        .pools-section {
-            margin-bottom: 48px;
-        }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .section-title { font-size: 24px; font-weight: 700; }
         
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
+        .pool-tabs { display: flex; gap: 8px; }
+        .pool-tab { padding: 8px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; color: var(--text-secondary); cursor: pointer; font-weight: 500; transition: all 0.3s; }
+        .pool-tab:hover, .pool-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
         
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .pool-tabs {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .pool-tab {
-            padding: 8px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .pool-tab:hover, .pool-tab.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-        
-        .pools-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
+        .pools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         
         .pool-card {
             background: var(--bg-card);
@@ -239,17 +142,9 @@
             transition: all 0.3s;
         }
         
-        .pool-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-        }
+        .pool-card:hover { border-color: var(--primary); transform: translateY(-4px); }
         
-        .pool-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+        .pool-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
         
         .pool-icon {
             width: 48px;
@@ -262,217 +157,70 @@
             font-size: 24px;
         }
         
-        .pool-info h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
+        .pool-info h4 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+        .pool-info span { font-size: 13px; color: var(--text-secondary); }
         
-        .pool-info span {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+        .pool-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
         
-        .pool-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+        .pool-stat { padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; }
+        .pool-stat .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .pool-stat .value { font-size: 18px; font-weight: 700; }
+        .pool-stat .value.highlight { color: var(--success); }
         
-        .pool-stat {
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-        }
+        .pool-progress { margin-bottom: 24px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
         
-        .pool-stat .label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
+        .progress-bar { height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 4px; transition: width 0.3s; }
         
-        .pool-stat .value {
-            font-size: 18px;
-            font-weight: 700;
-        }
+        .pool-actions { display: flex; gap: 12px; }
+        .pool-actions .btn { flex: 1; justify-content: center; }
         
-        .pool-stat .value.highlight {
-            color: var(--success);
-        }
-        
-        .pool-progress {
-            margin-bottom: 24px;
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        
-        .pool-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .pool-actions .btn {
-            flex: 1;
-            justify-content: center;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-primary); }
         
         /* 我的质押 */
-        .my-stakes {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px;
-        }
+        .my-stakes { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; margin-top: 48px; }
         
-        .stakes-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
+        .stakes-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .stakes-header h3 { font-size: 20px; font-weight: 600; }
         
-        .stakes-header h3 {
-            font-size: 20px;
-            font-weight: 600;
-        }
+        .stakes-table { width: 100%; }
+        .stakes-table th, .stakes-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .stakes-table th { color: var(--text-secondary); font-weight: 500; font-size: 13px; }
+        .stakes-table tr:last-child td { border-bottom: none; }
         
-        .stakes-table {
-            width: 100%;
-        }
+        .stake-asset { display: flex; align-items: center; gap: 12px; }
+        .stake-asset .icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .stake-asset h4 { font-size: 14px; font-weight: 600; }
+        .stake-asset span { font-size: 12px; color: var(--text-secondary); }
         
-        .stakes-table th,
-        .stakes-table td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(16, 185, 129, 0.1); color: var(--success); border-radius: 100px; font-size: 12px; font-weight: 500; }
         
-        .stakes-table th {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 13px;
-        }
+        .apr-value { color: var(--success); font-weight: 600; }
         
-        .stakes-table td {
-            font-size: 14px;
-        }
-        
-        .stakes-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .stake-asset {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .stake-asset .icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .stake-asset .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        
-        .stake-asset .info span {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .apr-value {
-            color: var(--success);
-            font-weight: 600;
-        }
-        
-        /* 响应式 */
-        @media (max-width: 1200px) {
-            .stake-overview { grid-template-columns: repeat(2, 1fr); }
-            .pools-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        @media (max-width: 768px) {
-            .navbar { padding: 0 20px; }
-            .nav-links { display: none; }
-            .main-content { padding: 100px 20px 40px; }
-            .stake-overview { grid-template-columns: 1fr; }
-            .pools-grid { grid-template-columns: 1fr; }
-            .stakes-table { display: block; overflow-x: auto; }
-        }
+        @media (max-width: 1200px) { .overview-grid { grid-template-columns: repeat(2, 1fr); } .pools-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .main-content { padding: 100px 20px 40px; } .pools-grid { grid-template-columns: 1fr; } .overview-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
     
-    <!-- 导航栏 -->
     <nav class="navbar">
-        <a href="index.html" class="logo">
-            <div class="logo-icon">💎</div>
-            Nova NFT
-        </a>
-        
+        <a href="index.html" class="logo"><div class="logo-icon">💎</div> Nova NFT</a>
         <div class="nav-links">
             <a href="index.html" class="nav-link">首页</a>
             <a href="market.html" class="nav-link">市场</a>
-            <a href="#" class="nav-link">铸造</a>
+            <a href="order.html" class="nav-link">预约</a>
             <a href="stake.html" class="nav-link active">质押</a>
-            <a href="#" class="nav-link">资产</a>
-            <a href="#" class="nav-link">关于</a>
+            <a href="profile.html" class="nav-link">个人中心</a>
+            <a href="help.html" class="nav-link">帮助中心</a>
         </div>
-        
         <div class="nav-actions">
             <button class="btn wallet-btn">👛 连接钱包</button>
             <button class="btn btn-primary">开始创作</button>
         </div>
     </nav>
     
-    <!-- 主内容 -->
     <main class="main-content">
         <div class="page-header">
             <h1 class="page-title">💰 NFT 质押</h1>
@@ -480,7 +228,7 @@
         </div>
         
         <!-- 概览 -->
-        <div class="stake-overview">
+        <div class="overview-grid">
             <div class="overview-card">
                 <div class="overview-icon">📊</div>
                 <div class="overview-value">$125,680</div>
@@ -504,7 +252,7 @@
         </div>
         
         <!-- 质押池 -->
-        <section class="pools-section">
+        <section>
             <div class="section-header">
                 <h2 class="section-title">🔥 热门质押池</h2>
                 <div class="pool-tabs">
@@ -534,13 +282,8 @@
                         </div>
                     </div>
                     <div class="pool-progress">
-                        <div class="progress-header">
-                            <span>已质押</span>
-                            <span>78%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 78%;"></div>
-                        </div>
+                        <div class="progress-header"><span>已质押</span><span>78%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 78%;"></div></div>
                     </div>
                     <div class="pool-actions">
                         <button class="btn btn-outline">详情</button>
@@ -567,13 +310,8 @@
                         </div>
                     </div>
                     <div class="pool-progress">
-                        <div class="progress-header">
-                            <span>已质押</span>
-                            <span>65%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 65%;"></div>
-                        </div>
+                        <div class="progress-header"><span>已质押</span><span>65%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
                     </div>
                     <div class="pool-actions">
                         <button class="btn btn-outline">详情</button>
@@ -600,13 +338,8 @@
                         </div>
                     </div>
                     <div class="pool-progress">
-                        <div class="progress-header">
-                            <span>已质押</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 92%;"></div>
-                        </div>
+                        <div class="progress-header"><span>已质押</span><span>92%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 92%;"></div></div>
                     </div>
                     <div class="pool-actions">
                         <button class="btn btn-outline">详情</button>
@@ -640,7 +373,7 @@
                         <td>
                             <div class="stake-asset">
                                 <div class="icon">🎨</div>
-                                <div class="info">
+                                <div>
                                     <h4>抽象宇宙 #142</h4>
                                     <span>2026-01-15</span>
                                 </div>
@@ -657,7 +390,7 @@
                         <td>
                             <div class="stake-asset">
                                 <div class="icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🖼️</div>
-                                <div class="info">
+                                <div>
                                     <h4>像素朋克 #888</h4>
                                     <span>2026-02-20</span>
                                 </div>
@@ -674,7 +407,7 @@
                         <td>
                             <div class="stake-asset">
                                 <div class="icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🏙️</div>
-                                <div class="info">
+                                <div>
                                     <h4>数字城市 #056</h4>
                                     <span>2026-03-01</span>
                                 </div>
@@ -693,7 +426,6 @@
     </main>
     
     <script>
-        // 质押池标签切换
         document.querySelectorAll('.pool-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active'));

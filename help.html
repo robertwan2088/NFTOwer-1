@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - Nova NFT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                var(--bg-dark);
+            z-index: -1;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-links { display: flex; gap: 8px; }
+        .nav-link { padding: 10px 20px; color: var(--text-secondary); text-decoration: none; font-weight: 500; border-radius: 8px; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+        
+        .btn { padding: 10px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .wallet-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 16px; }
+        
+        .main-content { padding: 120px 48px 60px; max-width: 1200px; margin: 0 auto; }
+        
+        .page-header { text-align: center; margin-bottom: 60px; }
+        .page-title { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 18px; margin-bottom: 32px; }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 24px;
+            padding-left: 56px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        
+        .search-input:focus { outline: none; border-color: var(--primary); }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        /* 常见问题分类 */
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        
+        .faq-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .faq-category:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .faq-category .icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+        
+        .faq-category h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .faq-category p { font-size: 13px; color: var(--text-secondary); }
+        
+        /* FAQ列表 */
+        .faq-list { margin-bottom: 60px; }
+        
+        .faq-section { margin-bottom: 40px; }
+        
+        .faq-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .faq-question:hover { background: rgba(255, 255, 255, 0.02); }
+        
+        .faq-question h4 { font-size: 15px; font-weight: 500; }
+        .faq-question .arrow { color: var(--text-secondary); transition: transform 0.3s; }
+        
+        .faq-item.active .faq-question .arrow { transform: rotate(180deg); }
+        
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 24px 20px;
+            max-height: 500px;
+        }
+        
+        .faq-answer p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+        
+        /* 联系客服 */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 24px;
+            padding: 60px;
+            text-align: center;
+        }
+        
+        .contact-section h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+        .contact-section p { font-size: 16px; opacity: 0.9; margin-bottom: 32px; }
+        
+        .contact-btns { display: flex; gap: 16px; justify-content: center; }
+        
+        .contact-btn {
+            padding: 14px 32px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contact-btn.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        @media (max-width: 1200px) { .faq-categories { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .main-content { padding: 100px 20px 40px; } .faq-categories { grid-template-columns: 1fr; } .contact-btns { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <nav class="navbar">
+        <a href="index.html" class="logo"><div class="logo-icon">💎</div> Nova NFT</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">首页</a>
+            <a href="market.html" class="nav-link">市场</a>
+            <a href="order.html" class="nav-link">预约</a>
+            <a href="stake.html" class="nav-link">质押</a>
+            <a href="profile.html" class="nav-link">个人中心</a>
+            <a href="help.html" class="nav-link active">帮助中心</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn wallet-btn">👛 连接钱包</button>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">❓ 帮助中心</h1>
+            <p class="page-subtitle">找到您需要的问题答案，如有疑问请联系我们</p>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="搜索您的问题...">
+            </div>
+        </div>
+        
+        <!-- 问题分类 -->
+        <div class="faq-categories">
+            <div class="faq-category">
+                <div class="icon">💰</div>
+                <h3>购买与交易</h3>
+                <p>如何购买NFT</p>
+            </div>
+            <div class="faq-category">
+                <div class="icon">👛</div>
+                <h3>钱包与账户</h3>
+                <p>钱包设置与安全</p>
+            </div>
+            <div class="faq-category">
+                <div class="icon">🎨</div>
+                <h3>铸造与创作</h3>
+                <p>如何创建NFT</p>
+            </div>
+            <div class="faq-category">
+                <div class="icon">💎</div>
+                <h3>质押与收益</h3>
+                <p>质押机制说明</p>
+            </div>
+        </div>
+        
+        <!-- 常见问题 -->
+        <div class="faq-list">
+            <div class="faq-section">
+                <h2>💰 购买与交易</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>如何购买NFT？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. 连接您的加密钱包<br>2. 浏览市场选择您喜欢的NFT<br>3. 点击购买并确认交易<br>4. 交易完成后，NFT将自动转入您的钱包</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>支持哪些加密货币支付？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>目前支持ETH、BTC、USDT等主流加密货币进行支付。我们正在逐步支持更多支付方式。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>交易需要支付手续费吗？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>是的，每笔交易需要支付少量的Gas费（区块链网络手续费）以及平台服务费。具体费用会在交易确认前显示。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>👛 钱包与账户</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>如何连接钱包？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>点击页面右上角的"连接钱包"按钮，选择您使用的钱包类型（如MetaMask、Coinbase Wallet等），然后在钱包中确认连接请求即可。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>如何保障账户安全？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. 请勿将钱包助记词透露给任何人<br>2. 开启钱包的双重验证<br>3. 定期检查账户交易记录<br>4. 谨慎点击不明链接</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>🎨 铸造与创作</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>如何在平台铸造NFT？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>1. 点击"开始创作"按钮<br>2. 上传您的作品图片/音频/视频<br>3. 填写NFT信息（名称、描述、属性等）<br>4. 设置价格或拍卖方式<br>5. 确认铸造并支付Gas费</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>铸造需要费用吗？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>铸造NFT需要支付少量的Gas费（区块链网络手续费），用于将您的作品信息上链。具体费用根据网络拥堵程度而定。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-section">
+                <h2>💎 质押与收益</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>什么是NFT质押？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>NFT质押是指将您持有的NFT存入质押池，获取每日收益奖励。质押期间您的NFT仍然属于您，只需按照平台规则即可获得被动收入。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>如何提取质押收益？</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>您可以随时在"我的质押"页面查看累计收益，点击"领取"按钮即可将收益提取到您的钱包地址。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 联系客服 -->
+        <div class="contact-section">
+            <h2>📞 联系我们</h2>
+            <p>遇到问题了吗？我们的客服团队随时为您服务</p>
+            <div class="contact-btns">
+                <button class="contact-btn">💬 在线客服</button>
+                <button class="contact-btn secondary">📧 发送邮件</button>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', function() {
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        document.querySelectorAll('.faq-category').forEach(cat => {
+            cat.addEventListener('click', function() {
+                const icon = this.querySelector('.icon').textContent;
+                document.querySelector('.search-input').value = '';
+                document.querySelector('.search-input').focus();
+            });
+        });
+    </script>
+</body>
+</html>
